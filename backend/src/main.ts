@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './modules/app.module';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,8 +21,11 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document); // Aqui é /docs mesmo
 
   // 3. CORS e Validations
+  const configService = app.get(ConfigService);
+  const allowedOrigins = configService.get<string>('FRONTEND_ORIGINS')?.split(',') || [];
+
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true,
   });
 
