@@ -43,7 +43,7 @@ Este projeto é um monorepositório. Você precisará de **dois terminais** aber
 
 ```bash
 # Clone o repositório
-git clone [https://github.com/ronassic/connectar-system.git](https://github.com/ronassic/connectar-system.git)
+git clone https://github.com/ronassic/connectar-system.git
 
 # Entre na pasta principal
 cd connectar-system
