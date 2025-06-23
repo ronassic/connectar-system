@@ -119,3 +119,9 @@ npm run test
 * ⚠️ Nunca suba o arquivo `.env` com dados reais para repositórios públicos. Ele já está no `.gitignore`.
 * As senhas são armazenadas no banco de dados com hash forte usando **bcrypt**.
 * O campo `lastLogin` é atualizado automaticamente a cada login bem-sucedido.
+
+
+---
+
+## ⚠️ This project is licensed under CC BY-NC 4.0. 
+Commercial use is strictly prohibited without written permission. My e-mail: ronassic@gmail.com
