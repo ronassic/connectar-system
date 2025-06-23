@@ -9,6 +9,7 @@ import { UserController } from '../controllers/user.controller';
 import { AuthController } from '../controllers/auth.controller';
 import { JwtStrategy } from '../strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuditService } from '../services/audit.service';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [UserController, AuthController],
-  providers: [UserService, AuthService, JwtStrategy],
+  providers: [UserService, AuthService, JwtStrategy, AuditService],
   exports: [UserService, AuthService],
 })
 export class UserModule {}

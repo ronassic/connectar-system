@@ -28,7 +28,8 @@ export class AuthController {
     try {
       return await this.authService.login(loginDto);
     } catch (error) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+
+      throw new HttpException('Credenciais inválidas', HttpStatus.UNAUTHORIZED);
     }
   }
 }

@@ -8,7 +8,6 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import UserList from './pages/UserList';
 import Profile from './pages/Profile';
-import './index.css';
 import InactiveUsers from './pages/InactiveUsers';
 
 // Layout wrapper que controla exibição condicional do Navbar

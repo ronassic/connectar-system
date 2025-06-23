@@ -129,7 +129,7 @@ var AuthService = function () {
                             _b.label = 3;
                         case 3:
                             if (_a) {
-                                throw new Error('Invalid credentials');
+                                throw new Error('Credenciais inválidas');
                             }
                             payload = { email: user.email, sub: user.id, role: user.role };
                             return [2 /*return*/, {

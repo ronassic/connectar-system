@@ -26,6 +26,7 @@ export class SeedService implements OnApplicationBootstrap {
         email: 'admin@example.com',
         password: rawPassword,
         role: UserRole.ADMIN,
+		createdAt: dataLogin,
         lastlogin: dataLogin
       });
 
@@ -34,6 +35,7 @@ export class SeedService implements OnApplicationBootstrap {
         email: 'usuario@example.com',
         password: rawPassword,
         role: UserRole.USER,
+		createdAt: oldLoginDate,
         lastlogin: oldLoginDate
       });
 

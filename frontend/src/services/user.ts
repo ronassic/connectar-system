@@ -26,8 +26,19 @@ export const userService = {
     await api.delete(`/users/${id}`);
   },
 
-  async getInactiveUsers(): Promise<User[]> {
-    const response = await api.get('/users/inactive');
+  async getInactiveUsers(
+    role?: string,
+    sortBy?: string,
+    order?: 'ASC' | 'DESC'
+  ): Promise<User[]> {
+    const response = await api.get('/users/inactive', {
+      // A mágica acontece aqui, no objeto 'params'
+      params: {
+        role,   // Adiciona ?role=... se 'role' for definido
+        sortBy, // Adiciona &sortBy=... se 'sortBy' for definido
+        order,  // Adiciona &order=... se 'order' for definido
+      },
+    });
     return response.data;
   },
 };

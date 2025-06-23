@@ -1,8 +1,8 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, LessThan, QueryFailedError, IsNull } from 'typeorm';
+import { Repository, LessThan, QueryFailedError, IsNull, FindManyOptions } from 'typeorm';
 import { User, UserRole } from '../entities/user.entity';
-import { CreateUserDto, UpdateUserDto } from '../dto/user.dto';
+import { CreateUserDto, FindUsersQueryDto, UpdateUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -29,18 +29,18 @@ export class UserService {
     }
   }
 
-  async findAll(role?: UserRole, sortBy?: string, order?: 'ASC' | 'DESC'): Promise<User[]> {
-    const query = this.userRepository.createQueryBuilder('user');
-    
-    if (role) {
-      query.where('user.role = :role', { role });
-    }
+  async findAll(query: FindUsersQueryDto = {}): Promise<User[]> {
+    const { role, sortBy, order } = query;
 
-    if (sortBy && order) {
-      query.orderBy(`user.${sortBy}`, order);
-    }
+    const findOptions: FindManyOptions<User> = {
+      // Define a condição 'where' baseada no filtro de 'role', se existir
+      where: role ? { role } : {},
+      
+      // Define a ordenação baseada nos parâmetros, ou usa um padrão
+      order: sortBy ? { [sortBy]: order || 'ASC' } : { createdAt: 'DESC' },
+    };
 
-    return query.getMany();
+    return this.userRepository.find(findOptions);
   }
 
   async findOne(id: string): Promise<User | null> {
@@ -104,22 +104,47 @@ export class UserService {
     await this.userRepository.delete(id);
   }
 
-
-
-  async findInactiveUsers(): Promise<User[]> {
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-    return this.userRepository.find({
-      where: [
-        { lastLogin: IsNull() },
-        { lastLogin: LessThan(thirtyDaysAgo) },
-      ],
-      order: { lastLogin: 'ASC' },
-    });
+  async countAdmins(): Promise<number> {
+    return this.userRepository.count({ where: { role: UserRole.ADMIN } });
   }
 
+  // Em backend/src/services/user.service.ts
 
+async findInactiveUsers(query: FindUsersQueryDto): Promise<User[]> {
+  const { role, sortBy, order } = query;
+
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  // 1. Cria um objeto de condição base que inclui o filtro de 'role', se ele existir.
+  // Se 'role' for 'admin', baseWhereConditions será { role: 'admin' }.
+  // Se 'role' for undefined, será {}.
+  const baseWhereConditions = role ? { role } : {};
+
+  // 2. Monta as opções de busca para o TypeORM
+  const findOptions: FindManyOptions<User> = {
+    // A cláusula 'where' é um array, o que significa que as condições são unidas por 'OR'
+    where: [
+      // CONDIÇÃO 1:
+      // Encontre usuários onde (o último login é NULO E atende às condições base)
+      // Ex: { lastLogin: IsNull(), role: 'admin' }
+      { lastLogin: IsNull(), ...baseWhereConditions },
+
+      // OU
+
+      // CONDIÇÃO 2:
+      // Encontre usuários onde (o último login é mais antigo que 30 dias E atende às condições base)
+      // Ex: { lastLogin: LessThan(thirtyDaysAgo), role: 'admin' }
+      { lastLogin: LessThan(thirtyDaysAgo), ...baseWhereConditions },
+    ],
+
+    // A ordenação continua dinâmica como já tínhamos feito
+    order: sortBy ? { [sortBy]: order || 'ASC' } : { lastLogin: 'ASC' },
+  };
+
+  // 3. Executa a busca com as opções montadas dinamicamente
+  return this.userRepository.find(findOptions);
+}
   
 }
 

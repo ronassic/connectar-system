@@ -18,7 +18,10 @@ export class CreateUserDto {
   role?: UserRole;
 
   @IsOptional()
-    lastlogin: Date;
+  lastlogin: Date;
+	
+  @IsOptional()
+  createdAt?: Date;
 }
 
 export class UpdateUserDto {
@@ -45,4 +48,18 @@ export class LoginDto {
 
   @IsNotEmpty()
   password!: string;
+}
+
+export class FindUsersQueryDto {
+  @IsOptional()
+  @IsEnum(UserRole)
+  role?: UserRole;
+
+  @IsOptional()
+  @IsString()
+  sortBy?: string;
+
+  @IsOptional()
+  @IsEnum(['ASC', 'DESC'])
+  order?: 'ASC' | 'DESC';
 }

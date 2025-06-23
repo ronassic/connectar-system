@@ -48,8 +48,9 @@ describe('UserService', () => {
         name: 'Test User',
         email: 'test@example.com',
         password: 'password123',
-        role: UserRole.USER,
-        lastlogin: datalogin
+        role: UserRole.USER,        
+        lastlogin: datalogin,
+        createdAt: datalogin
       };
 
       const user = { id: '1', ...createUserDto };

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from '../entities/user.entity';
 import { UserModule } from './user.module';
 import { SeedService } from '../services/seed.service';
+import { AuditService } from '../services/audit.service';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { SeedService } from '../services/seed.service';
     UserModule,
   ],
   controllers: [],
-  providers: [SeedService],
+  providers: [SeedService, AuditService],
 })
 export class AppModule {}

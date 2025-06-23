@@ -28,14 +28,14 @@ export class AuthService {
 
       if (!user) { // Usando !user para verificar se é null ou undefined
         // Não lançaremos erro aqui temporariamente, para ver o fluxo completo
-        throw new UnauthorizedException('Invalid credentials - User not found'); // Mude para UnauthorizedException
+        throw new UnauthorizedException('Credenciais inválidas - Usuário não encontrado'); // Mude para UnauthorizedException
       }
       const plainPassword = loginDto.password;
       const trimmedPlainPassword = plainPassword.trim();
       const isPasswordValid = await bcrypt.compare(trimmedPlainPassword, user.password);
 
       if (!isPasswordValid) {
-        throw new UnauthorizedException('Invalid credentials - Password mismatch'); // Mude para UnauthorizedException
+        throw new UnauthorizedException('Credenciais inválidas - Senha incorreta'); // Mude para UnauthorizedException
       }      
 
       const payload = { email: user.email, sub: user.id, role: user.role };
