@@ -8,6 +8,10 @@ Um monorepositório completo contendo uma API RESTful em NestJS para gerenciamen
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+---
+
+## 🖼️ Visão Geral
+![Preview do Painel de Gerenciamento de Usuários](https://github.com/user-attachments/assets/4ea3f4fc-1bcc-4581-8e30-4030cd39c967)
 
 ---
 
@@ -35,6 +39,16 @@ Um monorepositório completo contendo uma API RESTful em NestJS para gerenciamen
 
 ---
 
+## 🔧 Pré-requisitos
+
+Antes de iniciar, certifique-se de ter instalado:
+
+- [Node.js](https://nodejs.org/) (v18 ou superior recomendado)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Git](https://git-scm.com/)
+
+---
+
 ## ▶️ Como Executar o Projeto
 
 Este projeto é um monorepositório. Você precisará de **dois terminais** abertos, um para o backend e um para o frontend.
@@ -56,7 +70,11 @@ cd connectar-system
 cd backend
 
 # Copie o arquivo de ambiente de exemplo
+# Linux/macOS
 cp .env.example .env
+:: Windows
+copy .env.example .env
+
 # ⚠️ IMPORTANTE: Edite o arquivo .env com os dados do seu banco PostgreSQL.
 
 # Instale as dependências
@@ -74,8 +92,10 @@ npm run start:dev
 cd frontend
 
 # Copie o arquivo de ambiente de exemplo
+# Linux/macOS: 
 cp .env.example .env
-
+# Windows: 
+copy .env.example .env
 # Instale as dependências
 npm install
 
@@ -103,6 +123,64 @@ Com o backend em execução, acesse a documentação interativa da API, onde voc
 
 ---
 
+## 🚀 Deploy com Render
+
+Este projeto já está configurado para deploy automático na plataforma [Render](https://render.com/), com três serviços independentes, mas funcionando em conjunto:
+
+- **connectar-db** (PostgreSQL 16)  
+- **connectar-backend** (API NestJS)  
+- **connectar-frontend** (Aplicação React estática)
+
+![Tela dos_projetos_no_Render](https://github.com/user-attachments/assets/b61eeffd-cbd5-4cd5-a568-c026e99615e2)
+
+
+### 🔹 Backend (NestJS)
+
+- **Root Directory**: `backend`  
+- **Build Command**:  
+  `npm install && npm run build`  
+- **Start Command**:  
+  `npm run start`  
+- **Auto Deploy**: habilitado na branch `master`  
+- **Variáveis de ambiente**: configure no painel do Render as mesmas variáveis do `.env`, como:  
+  - `DATABASE_URL`  
+  - `JWT_SECRET`  
+  - Outras conforme necessário
+
+📎 **URL pública da API**: https://connectar-backend.onrender.com
+
+---
+
+### 🔹 Frontend (React)
+
+- **Root Directory**: `frontend`  
+- **Build Command**:  
+  `npm install; npm run build`  
+- **Publish Directory**: `frontend/dist`  
+- **Auto Deploy**: habilitado na branch `master`
+
+📎 **URL pública do painel**: https://connectar-system.onrender.com
+
+---
+
+### 🔹 Banco de Dados (PostgreSQL)
+
+- **Plano gratuito com 1 GB**  
+- **Região**: Oregon (US)  
+- **Uso atual**: aproximadamente 6,5%  
+- O Render fornece o **endereço de conexão** automaticamente ao criar o serviço
+
+---
+
+### 📌 Observações
+
+- O deploy é feito automaticamente a cada push na branch `master`.  
+- Nunca exponha dados reais em arquivos públicos.  
+- Certifique-se de configurar corretamente todas as variáveis de ambiente.  
+- Para ambientes de staging, use uma nova branch ou clone os serviços no Render.
+
+---
+
 ## ✅ Testes Automatizados
 O backend inclui testes unitários para as lógicas de serviço mais críticas.
 
@@ -113,6 +191,21 @@ cd backend
 # Execute os testes
 npm run test
 ```
+---
+
+## 💻 Recomendação de Editor
+
+Recomendamos o uso do [Visual Studio Code](https://code.visualstudio.com/) para editar o projeto, devido ao seu excelente suporte para:
+
+- **TypeScript**, **NestJS**, **React**
+- Extensões como:
+  - ESLint & Prettier (formatação e qualidade de código)
+  - Tailwind CSS IntelliSense
+  - REST Client ou Thunder Client (para testar APIs)
+  - GitLens (histórico e insights do Git)
+
+> 💡 Se você abrir o projeto pela raiz com o VS Code (`code .`), ele já reconhecerá a estrutura de monorepositório com backend e frontend.
+
 ---
 
 ## 🔐 Observações de Segurança
